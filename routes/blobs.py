@@ -5,7 +5,6 @@ blob_routes = APIRouter()
 
 @blob_routes.post("/upload")
 async def upload (container: str = Form(...), file: UploadFile = File(...)):
-    #data = await file.read()
-    data_path = file
+    data = await file.read()
     filename = file.filename
-    return upload_blob(filename, container, data_path)
+    return upload_blob(filename, container, data)
