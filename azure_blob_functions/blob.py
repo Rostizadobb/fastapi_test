@@ -1,9 +1,9 @@
 from typing import BinaryIO
 from azure.storage.blob import BlobServiceClient
-from os import getenv
+import os
 from responses_colection.response_json import response_json
 
-blob_service_client = BlobServiceClient.from_connection_string(getenv("AZURE_STORAGE_CONNECTION_STRING"))
+blob_service_client = BlobServiceClient.from_connection_string(os.environ['AZURE_STORAGE_CONNECTION_STRING'])
 
 def upload_blob(filename: str, container: str, data: BinaryIO):
     try:
