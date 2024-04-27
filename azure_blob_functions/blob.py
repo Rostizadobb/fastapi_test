@@ -13,7 +13,7 @@ def upload_blob(filename: str, container: str, file):
         blob_client = blob_service_client.get_blob_client(container = container, blob = filename)
         # upload data
         block_list=[]
-        chunk_size=1024*1024*4
+        chunk_size=1024*1024*15
         with file.file as f:
             while True:
                 read_data = f.read(chunk_size)
