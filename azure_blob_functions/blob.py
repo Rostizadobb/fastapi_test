@@ -14,15 +14,14 @@ def upload_blob(filename: str, container: str, file):
         # upload data
         block_list = []
         chunk_size = 1024*1024*4
-        with file as f:
-            while True:
-                read_data = f.read(chunk_size)
-                if not read_data:
-                    break
-                blk_id = str(uuid.uuid4())
-                blob_client.stage_block(block_id=blk_id,data=read_data)
-                block_list.append(BlobBlock(block_id=blk_id))
-            blob_client.commit_block_list(block_list)
+        while True:
+            read_data = file.read(chunk_size)
+            if not read_data:
+                break
+            blk_id = str(uuid.uuid4())
+            blob_client.stage_block(block_id=blk_id,data=read_data)
+            block_list.append(BlobBlock(block_id=blk_id))
+        blob_client.commit_block_list(block_list)
     except Exception as e:
         return response_json(message=e.message, status = 500)
             
