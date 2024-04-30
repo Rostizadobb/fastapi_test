@@ -28,7 +28,7 @@ jobs:
         docker buildx build \
           --file Dockerfile \
           --tag rostizadobb/fastapi-demo:latest \
-          --build-arg AZURE_STORAGE_CONNECTION_STRING=$AZURE_STORAGE_CONNECTION_STRING
+          --build-arg AZURE_STORAGE_CONNECTION_STRING=$AZURE_STORAGE_CONNECTION_STRING \
           --push .
 
 
