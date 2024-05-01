@@ -11,7 +11,7 @@ async def upload (file: UploadFile = File(...)):
     filename = file.filename
     return upload_blob(filename, file)
 
-@blob_routes.get("/download_blob/{year}-{month}")
+@blob_routes.get("/consult_times/{year}-{month}")
 def download_file(year: int, month: int):
     blob_name = f"{year}-{month}.txt"
     return download_blob(blob_name)
