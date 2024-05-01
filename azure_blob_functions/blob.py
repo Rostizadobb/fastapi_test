@@ -1,13 +1,16 @@
 from azure.storage.blob import BlobServiceClient, BlobBlock
+from fastapi import HTTPException
 import os
 import uuid
-from responses_colection.response_json import response_json
+from responses_colection.response_json import response_json, response_stream
+from azure.core.exceptions import ResourceNotFoundError
 
+
+container = "cabfiles"
 AZURE_STORAGE_CONNECTION_STRING = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
 blob_service_client = BlobServiceClient.from_connection_string(AZURE_STORAGE_CONNECTION_STRING)
 
 def upload_blob(filename: str, file):
-    container = "cabfiles"
     try:
         blob_client = blob_service_client.get_blob_client(container = container, blob = filename)
         # Upload data by chunks
@@ -25,3 +28,13 @@ def upload_blob(filename: str, file):
         return response_json(message = "success")
     except Exception as e:
         return response_json(message = e, status = 500)
+
+
+def download_blob(filename: str):
+
+    try:
+        blob_client = blob_service_client.get_blob_client(
+            container=container, blob=filename)
+        return response_stream(data=blob_client.download_blob().chunks(), download=True)
+    except ResourceNotFoundError:
+        raise HTTPException(status_code=404, detail="Blob not found")
