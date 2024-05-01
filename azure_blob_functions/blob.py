@@ -6,11 +6,11 @@ from responses_colection.response_json import response_json, response_stream
 from azure.core.exceptions import ResourceNotFoundError
 
 
-container = "cabfiles"
 AZURE_STORAGE_CONNECTION_STRING = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
 blob_service_client = BlobServiceClient.from_connection_string(AZURE_STORAGE_CONNECTION_STRING)
 
 def upload_blob(filename: str, file):
+    container = "cabfiles"
     try:
         blob_client = blob_service_client.get_blob_client(container = container, blob = filename)
         # Upload data by chunks
@@ -31,7 +31,7 @@ def upload_blob(filename: str, file):
 
 
 def download_blob(filename: str):
-
+    container = "results"
     try:
         blob_client = blob_service_client.get_blob_client(
             container=container, blob=filename)
