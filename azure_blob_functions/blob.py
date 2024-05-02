@@ -13,6 +13,9 @@ def upload_blob(filename: str, file):
     container = "cabfiles"
     try:
         blob_client = blob_service_client.get_blob_client(container = container, blob = filename)
+        block_size=1024*1024*20
+        blob_client.upload_blob(file, blob_type="BlockBlob", max_concurrency=2, block_size=block_size)
+        '''
         # Upload data by chunks
         block_list=[]
         chunk_size=1024*1024*30
@@ -25,6 +28,8 @@ def upload_blob(filename: str, file):
                 blob_client.stage_block(block_id=blk_id,data=read_data) 
                 block_list.append(BlobBlock(block_id=blk_id))
         blob_client.commit_block_list(block_list)
+        return response_json(message = "success")
+        '''
         return response_json(message = "success")
     except Exception as e:
         return response_json(message = e, status = 500)
