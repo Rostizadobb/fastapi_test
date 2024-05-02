@@ -13,8 +13,6 @@ def upload_blob(filename: str, file):
     container = "cabfiles"
     try:
         blob_client = blob_service_client.get_blob_client(container = container, blob = filename)
-        block_size=1024*1024*20
-        blob_client.upload_blob(file, blob_type="BlockBlob", max_concurrency=2, block_size=block_size)
         # Upload data by chunks
         block_list=[]
         chunk_size=1024*1024*30
